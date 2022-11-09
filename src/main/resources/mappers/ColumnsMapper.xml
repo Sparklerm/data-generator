@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparkler.generator.mapper.ColumnsMapper">
 
-    <resultMap id="BaseResultMap" type="com.sparkler.generator.model.dto.ColumnsDO">
+    <resultMap id="BaseResultMap" type="com.sparkler.generator.model.domain.Columns">
         <result property="tableCatalog" column="TABLE_CATALOG" jdbcType="VARCHAR"/>
         <result property="tableSchema" column="TABLE_SCHEMA" jdbcType="VARCHAR"/>
         <result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR"/>
         <result property="columnName" column="COLUMN_NAME" jdbcType="VARCHAR"/>
-        <result property="ordinalPosition" column="ORDINAL_POSITION" jdbcType="INTEGER"/>
+        <result property="ordinalPosition" column="ORDINAL_POSITION" jdbcType="OTHER"/>
         <result property="columnDefault" column="COLUMN_DEFAULT" jdbcType="VARCHAR"/>
         <result property="isNullable" column="IS_NULLABLE" jdbcType="VARCHAR"/>
         <result property="dataType" column="DATA_TYPE" jdbcType="VARCHAR"/>
@@ -17,7 +17,7 @@
         <result property="characterOctetLength" column="CHARACTER_OCTET_LENGTH" jdbcType="BIGINT"/>
         <result property="numericPrecision" column="NUMERIC_PRECISION" jdbcType="BIGINT"/>
         <result property="numericScale" column="NUMERIC_SCALE" jdbcType="BIGINT"/>
-        <result property="datetimePrecision" column="DATETIME_PRECISION" jdbcType="INTEGER"/>
+        <result property="datetimePrecision" column="DATETIME_PRECISION" jdbcType="OTHER"/>
         <result property="characterSetName" column="CHARACTER_SET_NAME" jdbcType="VARCHAR"/>
         <result property="collationName" column="COLLATION_NAME" jdbcType="VARCHAR"/>
         <result property="columnType" column="COLUMN_TYPE" jdbcType="VARCHAR"/>
@@ -26,7 +26,7 @@
         <result property="privileges" column="PRIVILEGES" jdbcType="VARCHAR"/>
         <result property="columnComment" column="COLUMN_COMMENT" jdbcType="VARCHAR"/>
         <result property="generationExpression" column="GENERATION_EXPRESSION" jdbcType="VARCHAR"/>
-        <result property="srsId" column="SRS_ID" jdbcType="INTEGER"/>
+        <result property="srsId" column="SRS_ID" jdbcType="OTHER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -39,13 +39,12 @@
         PRIVILEGES,COLUMN_COMMENT,GENERATION_EXPRESSION,
         SRS_ID
     </sql>
-    
-    <select id="selectColumnsByTableName" resultType="com.sparkler.generator.model.dto.ColumnsDO">
+
+    <select id="selectColumnsByTableName" resultType="com.sparkler.generator.model.domain.Columns">
         select
         <include refid="Base_Column_List"/>
         FROM information_schema.COLUMNS
         WHERE TABLE_SCHEMA = (select database()) AND TABLE_NAME=#{tableName}
         ORDER BY ORDINAL_POSITION
     </select>
-
 </mapper>

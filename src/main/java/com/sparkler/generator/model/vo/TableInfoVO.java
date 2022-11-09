@@ -5,6 +5,8 @@ import com.sparkler.generator.model.dto.TablesDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,7 +14,22 @@ import java.util.List;
  * @createDate 2022/11/1
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class TableInfoVO extends TablesDO {
-    private List<ColumnsDO> columns;
+public class TableInfoVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     *
+     */
+    private String tableName;
+    /**
+     *
+     */
+    private String tableCollation;
+    /**
+     *
+     */
+    private String tableComment;
+
+    private List<TableColumnVO> columns;
 }

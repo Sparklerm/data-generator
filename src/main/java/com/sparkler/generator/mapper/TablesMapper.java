@@ -1,6 +1,7 @@
 package com.sparkler.generator.mapper;
 
-import com.sparkler.generator.model.dto.TablesDO;
+import com.sparkler.generator.model.domain.Tables;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -8,16 +9,19 @@ import java.util.List;
 /**
  * @author Sparkler
  * @description 针对表【TABLES】的数据库操作Mapper
- * @createDate 2022-11-01 16:36:22
- * @Entity com.sparkler.model.domain.Tables
+ * @createDate 2022-11-09 16:46:21
+ * @Entity com.sparkler.generator.domain.Tables
  */
 @Mapper
-public interface TablesMapper {
-
+public interface TablesMapper extends BaseMapper<Tables> {
     /**
      * 查询数据库所有表信息
      *
      * @return List<TablesDO>
      */
-    List<TablesDO> selectAllTableInfo();
+    List<Tables> selectAllTableInfo();
 }
+
+
+
+

@@ -1,6 +1,7 @@
 package com.sparkler.generator.model.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +10,8 @@ import java.util.Date;
  * @author Sparkler
  * @TableName TABLES
  */
-@Data
+@Getter
+@Setter
 public class TablesDO implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
