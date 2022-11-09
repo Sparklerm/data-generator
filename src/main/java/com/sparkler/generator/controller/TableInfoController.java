@@ -1,10 +1,7 @@
 package com.sparkler.generator.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sparkler.generator.mapper.ColumnsMapper;
-import com.sparkler.generator.mapper.TablesMapper;
 import com.sparkler.generator.model.domain.Columns;
 import com.sparkler.generator.model.domain.Tables;
 import com.sparkler.generator.model.helper.Result;
@@ -38,50 +35,39 @@ public class TableInfoController {
 
 
     @GetMapping("/all_table_info")
-    public Result getTableInfo() {
-        try {
-            List<Tables> tableList = tablesService.selectAllTableInfo();
+    public Result<List<TableInfoVO>> getTableInfo() {
+        List<Tables> tableList = tablesService.selectAllTableInfo();
 
-            List<TableInfoVO> tableInfoVOList = new ArrayList<>(tableList.size());
-            for (Tables tableInfo : tableList) {
-                TableInfoVO tableInfoVO = new TableInfoVO();
-                List<Columns> columns = columnsService.selectColumnsByTableName(tableInfo.getTableName());
-                BeanUtils.copyProperties(tableInfo, tableInfoVO);
-                List<TableColumnVO> tableColumnVOList = new ArrayList<>(columns.size());
-                for (Columns column : columns) {
-                    TableColumnVO tableColumnVO = new TableColumnVO();
-                    BeanUtils.copyProperties(column, tableColumnVO);
-                    tableColumnVOList.add(tableColumnVO);
-                }
-                tableInfoVO.setColumns(tableColumnVOList);
-                tableInfoVOList.add(tableInfoVO);
+        List<TableInfoVO> tableInfoVOList = new ArrayList<>(tableList.size());
+        for (Tables tableInfo : tableList) {
+            TableInfoVO tableInfoVO = new TableInfoVO();
+            List<Columns> columns = columnsService.selectColumnsByTableName(tableInfo.getTableName());
+            BeanUtils.copyProperties(tableInfo, tableInfoVO);
+            List<TableColumnVO> tableColumnVOList = new ArrayList<>(columns.size());
+            for (Columns column : columns) {
+                TableColumnVO tableColumnVO = new TableColumnVO();
+                BeanUtils.copyProperties(column, tableColumnVO);
+                tableColumnVOList.add(tableColumnVO);
             }
-            return Result.success(tableInfoVOList);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
+            tableInfoVO.setColumns(tableColumnVOList);
+            tableInfoVOList.add(tableInfoVO);
         }
+        return Result.success(tableInfoVOList);
     }
 
 
     @GetMapping("/data_page")
-    public Result selectTable(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
-        try {
-            PageHelper.startPage(pageNum, pageSize);
-            List<Tables> tableList = tablesService.selectAllTableInfo();
-            return Result.success(new PageInfo(tableList));
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<PageInfo<Tables>> selectTable(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Tables> tableList = tablesService.selectAllTableInfo();
+        PageInfo<Tables> pageInfo = new PageInfo<>(tableList);
+        return Result.success(pageInfo);
     }
 
     @GetMapping("/columns")
-    public Result getColumnsByTableName(@RequestParam(value = "tableName", required = false) String tableName) {
-        try {
-            List<Columns> columns = columnsService.selectColumnsByTableName(tableName);
-            return Result.success(columns);
-        } catch (Exception e) {
-            return Result.error(e.getMessage());
-        }
+    public Result<List<Columns>> getColumnsByTableName(@RequestParam(value = "tableName", required = false) String tableName) {
+        List<Columns> columns = columnsService.selectColumnsByTableName(tableName);
+        return Result.success(columns);
     }
 
 

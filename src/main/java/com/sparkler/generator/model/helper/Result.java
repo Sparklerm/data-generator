@@ -1,11 +1,8 @@
 package com.sparkler.generator.model.helper;
 
-import com.github.pagehelper.PageInfo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Sparkler
@@ -16,7 +13,7 @@ public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = -3960261604605958516L;
 
-    private int code;
+    private String code;
     private String message;
     private T data;
 
@@ -79,15 +76,14 @@ public class Result<T> implements Serializable {
     }
 
     /**
-     * 失败,自定义状态码,返回消息,无返回数据
+     * 构造器,自定义状态码,返回消息
      *
-     * @param code    自定义状态码
-     * @param message 自定义返回消息
-     * @param <T>     返回类泛型
-     * @return 通用返回Result
+     * @param code    状态码
+     * @param message 返回消息
      */
-    public static <T> Result<T> error(int code, String message) {
-        return new Result<>(code, message);
+    private Result(String code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
     /**
@@ -139,26 +135,27 @@ public class Result<T> implements Serializable {
     }
 
     /**
-     * 构造器,自定义状态码,返回消息
-     *
-     * @param code    状态码
-     * @param message 返回消息
-     */
-    private Result(int code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    /**
      * 构造器,自定义状态码,返回消息,返回数据
      *
      * @param code    状态码
      * @param message 返回消息
      * @param data    返回数据
      */
-    private Result(int code, String message, T data) {
+    private Result(String code, String message, T data) {
         this(code, message);
         this.data = data;
+    }
+
+    /**
+     * 失败,自定义状态码,返回消息,无返回数据
+     *
+     * @param code    自定义状态码
+     * @param message 自定义返回消息
+     * @param <T>     返回类泛型
+     * @return 通用返回Result
+     */
+    public static <T> Result<T> error(String code, String message) {
+        return new Result<>(code, message);
     }
 
     /**

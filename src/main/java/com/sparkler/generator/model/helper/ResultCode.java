@@ -19,7 +19,7 @@ public class ResultCode implements Serializable {
     /**
      * 状态码
      */
-    private int code;
+    private String code;
 
     /**
      * 状态信息
@@ -79,7 +79,7 @@ public class ResultCode implements Serializable {
         return ResultCode.builder().code(codeEnum.getCode()).msg(codeEnum.getMessage()).build();
     }
 
-    public ResultCode(int code, String msg) {
+    public ResultCode(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
