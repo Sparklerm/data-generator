@@ -1,6 +1,4 @@
-package com.generator.util;
-
-//import com.sparkler.generator.config.db.DynamicDataSourceService;
+package com.generator.tool;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

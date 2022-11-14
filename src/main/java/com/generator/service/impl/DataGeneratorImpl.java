@@ -1,12 +1,13 @@
 package com.generator.service.impl;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.generator.model.common.ConfigKey;
 import com.generator.model.enums.DbDataTypeMatchEnum;
 import com.generator.service.DataGenerator;
-import com.generator.util.SnowflakeId;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,14 +20,19 @@ import java.util.Date;
 @Service
 public class DataGeneratorImpl implements DataGenerator {
 
+    /**
+     * 雪花算法Id生成
+     */
+    private static final Snowflake snowflake = IdUtil.getSnowflake();
+
     @Override
     public long idNumberGenerator() {
-        return SnowflakeId.getInstance().nextId();
+        return snowflake.nextId();
     }
 
     @Override
     public String idStrGenerator() {
-        return SnowflakeId.getInstance().nextIdStr();
+        return snowflake.nextIdStr();
     }
 
     @Override
