@@ -33,5 +33,5 @@ public interface DataGenerateService {
      */
     void threadBatchInsertData(String tableName, Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfo, Integer pkAutoIncrement, Integer records, CountDownLatch countDownLatch);
 
-    void toThreadBatchInsert(TableInfoQo tableInfoQo, Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfos, int threadSize);
+    void toThreadBatchInsert(TableInfoQo tableInfoQo, Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfos, int threadSize, int onceInsertRecode);
 }

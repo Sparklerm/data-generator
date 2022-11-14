@@ -47,15 +47,29 @@ public class DataGenerateController {
             }
             columnInfos.put(columnInfo, DbDataTypeMatchEnum.getDataTypeByDbType(columnInfo.getDataType()));
         }
+
+        int onceInsertRecord = ConfigKey.ONCE_INSERT_RECORDS;
+
         /**
          * 根据单次插入数据量计算出需要多少次插入
          */
-        int needThreadCount = tableInfoQo.getRecords() / ConfigKey.ONCE_INSERT_RECORDS;
+        int needThreadCount = 0;
+
         /**
          * 批量插入后的剩余数量
          */
-        int remainingRecords = tableInfoQo.getRecords() % ConfigKey.ONCE_INSERT_RECORDS;
+        int remainingRecords = 0;
 
+
+        if (tableInfoQo.getRecords() < onceInsertRecord) {
+            needThreadCount = corePoolSize;
+            onceInsertRecord = tableInfoQo.getRecords() / needThreadCount;
+            remainingRecords = tableInfoQo.getRecords() % corePoolSize;
+        } else {
+            needThreadCount = tableInfoQo.getRecords() / onceInsertRecord;
+
+            remainingRecords = tableInfoQo.getRecords() % onceInsertRecord;
+        }
         /**
          * 根据当前线程池的线程数计算出需要进行多线程批量插入的次数；
          * 使用循环批量插入目的：
@@ -64,16 +78,17 @@ public class DataGenerateController {
          */
         int poolCount = needThreadCount / corePoolSize;
         if (poolCount == 0) {
-            dataGenerateService.toThreadBatchInsert(tableInfoQo, columnInfos, needThreadCount);
+            dataGenerateService.toThreadBatchInsert(tableInfoQo, columnInfos, needThreadCount, onceInsertRecord);
         } else {
             for (int pool = 0; pool < poolCount; pool++) {
                 int threadSize = getThreadSize(needThreadCount, poolCount, pool);
-                dataGenerateService.toThreadBatchInsert(tableInfoQo, columnInfos, threadSize);
+                dataGenerateService.toThreadBatchInsert(tableInfoQo, columnInfos, threadSize, onceInsertRecord);
             }
         }
         if (remainingRecords > 0) {
             dataGenerateService.batchInsertData(tableInfoQo.getTableName(), columnInfos, 0, remainingRecords);
         }
+
         long endTime = System.currentTimeMillis();
         return Result.success("use time : " + (endTime - start));
     }

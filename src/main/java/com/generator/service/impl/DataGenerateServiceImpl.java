@@ -3,7 +3,6 @@ package com.generator.service.impl;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.generator.mapper.DataGenerateMapper;
-import com.generator.model.common.ConfigKey;
 import com.generator.model.enums.DbDataTypeMatchEnum;
 import com.generator.model.qo.ColumnInfoQo;
 import com.generator.model.qo.TableInfoQo;
@@ -74,10 +73,10 @@ public class DataGenerateServiceImpl implements DataGenerateService {
     }
 
     @Override
-    public void toThreadBatchInsert(TableInfoQo tableInfoQo, Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfos, int threadSize) {
+    public void toThreadBatchInsert(TableInfoQo tableInfoQo, Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfos, int threadSize, int onceInsertRecode) {
         CountDownLatch countDownLatch = new CountDownLatch(threadSize);
         for (int i = 0; i < threadSize; i++) {
-            this.threadBatchInsertData(tableInfoQo.getTableName(), columnInfos, 0, ConfigKey.ONCE_INSERT_RECORDS, countDownLatch);
+            this.threadBatchInsertData(tableInfoQo.getTableName(), columnInfos, 0, onceInsertRecode, countDownLatch);
         }
         try {
             countDownLatch.await();
