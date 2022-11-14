@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sparkler.generator.mapper.ColumnsMapper">
+<mapper namespace="com.generator.mapper.ColumnsMapper">
 
-    <resultMap id="BaseResultMap" type="com.sparkler.generator.model.domain.Columns">
+    <resultMap id="BaseResultMap" type="com.generator.model.domain.Columns">
         <result property="tableCatalog" column="TABLE_CATALOG" jdbcType="VARCHAR"/>
         <result property="tableSchema" column="TABLE_SCHEMA" jdbcType="VARCHAR"/>
         <result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR"/>
@@ -40,7 +40,7 @@
         SRS_ID
     </sql>
 
-    <select id="selectColumnsByTableName" resultType="com.sparkler.generator.model.domain.Columns">
+    <select id="selectColumnsByTableName" resultType="com.generator.model.domain.Columns">
         select
         <include refid="Base_Column_List"/>
         FROM information_schema.COLUMNS

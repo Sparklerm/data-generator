@@ -139,7 +139,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.7.RELEASE</version>
                 <configuration>
-                    <mainClass>com.sparkler.generator.DataGeneratorApplication</mainClass>
+                    <mainClass>com.generator.DataGeneratorApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

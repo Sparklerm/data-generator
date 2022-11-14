@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sparkler.generator.mapper.TablesMapper">
+<mapper namespace="com.generator.mapper.TablesMapper">
 
-    <resultMap id="BaseResultMap" type="com.sparkler.generator.model.domain.Tables">
+    <resultMap id="BaseResultMap" type="com.generator.model.domain.Tables">
         <result property="tableCatalog" column="TABLE_CATALOG" jdbcType="VARCHAR"/>
         <result property="tableSchema" column="TABLE_SCHEMA" jdbcType="VARCHAR"/>
         <result property="tableName" column="TABLE_NAME" jdbcType="VARCHAR"/>
@@ -38,7 +38,7 @@
         CHECKSUM,CREATE_OPTIONS,TABLE_COMMENT
     </sql>
 
-    <select id="selectAllTableInfo" resultType="com.sparkler.generator.model.domain.Tables">
+    <select id="selectAllTableInfo" resultType="com.generator.model.domain.Tables">
         select
         <include refid="Base_Column_List"/>
         from information_schema.TABLES
