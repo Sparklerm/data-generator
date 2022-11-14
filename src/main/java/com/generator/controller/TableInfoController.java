@@ -9,6 +9,8 @@ import com.generator.service.ColumnsService;
 import com.generator.service.TablesService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/table")
+@Api(tags = "TableInfoController")
 public class TableInfoController {
 
     @Autowired
@@ -34,6 +37,7 @@ public class TableInfoController {
     private ColumnsService columnsService;
 
 
+    @ApiOperation("获取所有表信息（包括列信息）")
     @GetMapping("/all_table_info")
     public Result<List<TableInfoVO>> getTableInfo() {
         List<Tables> tableList = tablesService.selectAllTableInfo();
@@ -55,7 +59,7 @@ public class TableInfoController {
         return Result.success(tableInfoVOList);
     }
 
-
+    @ApiOperation("分页获取表信息（不包括列信息）")
     @GetMapping("/data_page")
     public Result<PageInfo<Tables>> selectTable(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -64,6 +68,7 @@ public class TableInfoController {
         return Result.success(pageInfo);
     }
 
+    @ApiOperation("根据表名获取列信息")
     @GetMapping("/columns")
     public Result<List<Columns>> getColumnsByTableName(@RequestParam(value = "tableName", required = false) String tableName) {
         List<Columns> columns = columnsService.selectColumnsByTableName(tableName);

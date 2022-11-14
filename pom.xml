@@ -19,6 +19,7 @@
         <pagehelper.version>1.4.5</pagehelper.version>
         <hutool-all.version>5.8.9</hutool-all.version>
         <oshi-core.version>6.3.1</oshi-core.version>
+        <swagger.version>2.9.2</swagger.version>
     </properties>
 
     <dependencies>
@@ -107,6 +108,19 @@
             <version>${oshi-core.version}</version>
         </dependency>
         <!-- oshi-core End -->
+
+        <!-- Swagger Start -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <!-- Swagger End -->
     </dependencies>
 
     <dependencyManagement>

@@ -6,6 +6,8 @@ import com.generator.model.helper.Result;
 import com.generator.model.qo.ColumnInfoQo;
 import com.generator.model.qo.TableInfoQo;
 import com.generator.service.DataGenerateService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,7 @@ import java.util.Map;
  */
 @RestController
 @Slf4j
+@Api(tags = "DataGenerateController")
 public class DataGenerateController {
 
     @Value("${async.executor.thread.core_pool_size}")
@@ -32,6 +35,7 @@ public class DataGenerateController {
     private DataGenerateService dataGenerateService;
 
 
+    @ApiOperation("生成数据")
     @PostMapping("/api/generate")
     public Result batchInsertData(@RequestBody TableInfoQo tableInfoQo) {
         long start = System.currentTimeMillis();

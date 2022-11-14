@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Sparkler
  */
 @SpringBootApplication
-@MapperScan("com.sparkler.generator.mapper")
+@MapperScan("com.generator.mapper")
 public class DataGeneratorApplication {
 
     public static void main(String[] args) {
