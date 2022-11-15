@@ -1,7 +1,6 @@
 package com.generator.controller;
 
 import com.generator.model.common.ConfigKey;
-import com.generator.model.enums.DbDataTypeMatchEnum;
 import com.generator.model.helper.Result;
 import com.generator.model.qo.ColumnInfoQo;
 import com.generator.model.qo.TableInfoQo;
@@ -38,28 +37,26 @@ public class DataGenerateController {
     @ApiOperation("生成数据")
     @PostMapping("/api/generate")
     public Result batchInsertData(@RequestBody TableInfoQo tableInfoQo) {
-        long start = System.currentTimeMillis();
         List<ColumnInfoQo> columns = tableInfoQo.getColumns();
-        Map<ColumnInfoQo, DbDataTypeMatchEnum> columnInfos = new HashMap<>(columns.size());
+        Map<ColumnInfoQo, String> columnInfos = new HashMap<>(columns.size());
         for (ColumnInfoQo columnInfo : columns) {
             if ("auto_increment".equals(columnInfo.getExtra())) {
                 continue;
             }
-            columnInfos.put(columnInfo, DbDataTypeMatchEnum.getDataTypeByDbType(columnInfo.getDataType()));
+            columnInfos.put(columnInfo, columnInfo.getDataType());
         }
-
+        /**
+         * 单次插入（一条Insert SQL）数据量
+         */
         int onceInsertRecord = ConfigKey.ONCE_INSERT_RECORDS;
-
         /**
          * 根据单次插入数据量计算出需要多少次插入
          */
-        int needThreadCount = 0;
-
+        int needThreadCount;
         /**
          * 批量插入后的剩余数量
          */
-        int remainingRecords = 0;
-
+        int remainingRecords;
 
         if (tableInfoQo.getRecords() < onceInsertRecord) {
             needThreadCount = corePoolSize;
@@ -88,13 +85,11 @@ public class DataGenerateController {
         if (remainingRecords > 0) {
             dataGenerateService.batchInsertData(tableInfoQo.getTableName(), columnInfos, 0, remainingRecords);
         }
-
-        long endTime = System.currentTimeMillis();
-        return Result.success("use time : " + (endTime - start));
+        return Result.success("Work Start");
     }
 
     private int getThreadSize(int needThreadCount, int poolCount, int pool) {
-        int threadSize = 0;
+        int threadSize;
         if (pool == (poolCount - 1)) {
             threadSize = corePoolSize + (needThreadCount % corePoolSize);
         } else {

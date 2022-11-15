@@ -45,7 +45,6 @@ public class ExecutorConfig {
             corePoolSize = (int) (logicalProcessorCount * 1.5);
             maxPoolSize = corePoolSize;
         }
-        System.out.println(corePoolSize);
     }
 
     @Bean(name = "asyncServiceExecutor")

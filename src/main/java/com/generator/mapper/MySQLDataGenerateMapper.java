@@ -11,7 +11,7 @@ import java.util.Map;
  * @createDate 2022/11/12
  */
 @Mapper
-public interface DataGenerateMapper {
+public interface MySQLDataGenerateMapper {
     /**
      * 插入数据
      *
